@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Directions</title>
+  </head>
+  <body>
+    <h1>Directions</h1>
+    <form method="POST" action="/">
+      <label for="orig">Starting Location:</label>
+      <input type="text" name="orig" id="orig" />
+      <br />
+      <label for="dest">Destination:</label>
+      <input type="text" name="dest" id="dest" />
+      <br />
+      <input type="submit" value="Get Directions" />
+    </form>
+
+    {% if result %}
+    <h2>Results</h2>
+    <p>URL: {{ result.url }}</p>
+    {% if result.api_status == 0 %}
+    <p>API Status: A successful route call.</p>
+    <p>Directions from {{ request.form.orig }} to {{ request.form.dest }}</p>
+    <p>Trip Duration: {{ result.formatted_time }}</p>
+    <p>Miles: {{ result.distance_miles }}</p>
+    <p>Kilometers: {{ result.distance_km }}</p>
+    <ul>
+      {% for direction in result.directions %}
+      <li>{{ direction }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>API Status: An unsuccessful route call.</p>
+    {% endif %} {% endif %}
+  </body>
+</html>
